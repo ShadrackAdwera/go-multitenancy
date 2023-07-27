@@ -13,7 +13,9 @@ Multi-tenancy application using Database-per-tenant model.
 
 The use of single-tenant databases gives strong tenant isolation. In any app whose model specifies only single-tenant databases, the schema for any one given database can be customized and optimized for its tenant. This customization does not affect other tenants in the app. Perhaps a tenant might need data beyond the basic data fields that all tenants need. Further, the extra data field might need an index.
 
-With database-per-tenant, customizing the schema for one or more individual tenants is straightforward to achieve. The application vendor must design procedures to carefully manage schema customizations at scale.
+With database-per-tenant, customizing the schema for one or more individual tenants is straightforward to achieve.
+
+In such a case, a design to carefully manage schema customizations at scale should be taken into consideration.
 
 ## Comparisons
 
