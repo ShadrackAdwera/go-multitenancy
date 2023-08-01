@@ -5,7 +5,7 @@ CREATE TABLE "tenant" (
   "created_at" timestamptz NOT NULL DEFAULT (now())
 );
 
-CREATE TABLE "user" (
+CREATE TABLE "users" (
   "id" uuid PRIMARY KEY DEFAULT (gen_random_uuid()),
   "username" varchar(50) NOT NULL,
   "email" varchar(40) NOT NULL,
@@ -50,14 +50,14 @@ CREATE TABLE "group_policy" (
   "created_at" timestamptz NOT NULL DEFAULT (now())
 );
 
-CREATE TABLE "user_group" (
+CREATE TABLE "users_group" (
   "id" uuid PRIMARY KEY DEFAULT (gen_random_uuid()),
   "user_id" uuid,
   "group_id" uuid NOT NULL,
   "created_at" timestamptz NOT NULL DEFAULT (now())
 );
 
-CREATE UNIQUE INDEX ON "user" ("id", "tenant_id");
+CREATE UNIQUE INDEX ON "users" ("id", "tenant_id");
 
 CREATE UNIQUE INDEX ON "permission" ("id", "policy_id");
 
@@ -65,15 +65,15 @@ CREATE UNIQUE INDEX ON "profile" ("id", "user_id");
 
 CREATE UNIQUE INDEX ON "group_policy" ("group_id", "policy_id");
 
-CREATE UNIQUE INDEX ON "user_group" ("group_id", "user_id");
+CREATE UNIQUE INDEX ON "users_group" ("group_id", "user_id");
 
-ALTER TABLE "user" ADD FOREIGN KEY ("tenant_id") REFERENCES "tenant" ("id");
+ALTER TABLE "users" ADD FOREIGN KEY ("tenant_id") REFERENCES "tenant" ("id");
 
 ALTER TABLE "policy" ADD FOREIGN KEY ("group_id") REFERENCES "group" ("id");
 
 ALTER TABLE "permission" ADD FOREIGN KEY ("policy_id") REFERENCES "policy" ("id");
 
-ALTER TABLE "profile" ADD FOREIGN KEY ("user_id") REFERENCES "user" ("id");
+ALTER TABLE "profile" ADD FOREIGN KEY ("user_id") REFERENCES "users" ("id");
 
 ALTER TABLE "profile" ADD FOREIGN KEY ("group_id") REFERENCES "group" ("id");
 
@@ -81,6 +81,6 @@ ALTER TABLE "group_policy" ADD FOREIGN KEY ("group_id") REFERENCES "group" ("id"
 
 ALTER TABLE "group_policy" ADD FOREIGN KEY ("policy_id") REFERENCES "policy" ("id");
 
-ALTER TABLE "user_group" ADD FOREIGN KEY ("user_id") REFERENCES "user" ("id");
+ALTER TABLE "users_group" ADD FOREIGN KEY ("user_id") REFERENCES "users" ("id");
 
-ALTER TABLE "user_group" ADD FOREIGN KEY ("group_id") REFERENCES "group" ("id");
+ALTER TABLE "users_group" ADD FOREIGN KEY ("group_id") REFERENCES "group" ("id");
