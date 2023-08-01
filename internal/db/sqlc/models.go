@@ -63,7 +63,7 @@ type User struct {
 	CreatedAt         time.Time `json:"created_at"`
 }
 
-type UserGroup struct {
+type UsersGroup struct {
 	ID        uuid.UUID   `json:"id"`
 	UserID    pgtype.UUID `json:"user_id"`
 	GroupID   uuid.UUID   `json:"group_id"`
