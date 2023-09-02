@@ -11,12 +11,6 @@ import (
 	"github.com/jackc/pgx/v5/pgtype"
 )
 
-type Group struct {
-	ID        uuid.UUID `json:"id"`
-	Name      string    `json:"name"`
-	CreatedAt time.Time `json:"created_at"`
-}
-
 type GroupPolicy struct {
 	ID        uuid.UUID   `json:"id"`
 	GroupID   pgtype.UUID `json:"group_id"`
@@ -30,13 +24,6 @@ type Permission struct {
 	Description string    `json:"description"`
 	PolicyID    uuid.UUID `json:"policy_id"`
 	CreatedAt   time.Time `json:"created_at"`
-}
-
-type Policy struct {
-	ID        uuid.UUID   `json:"id"`
-	Name      string      `json:"name"`
-	GroupID   pgtype.UUID `json:"group_id"`
-	CreatedAt time.Time   `json:"created_at"`
 }
 
 type Profile struct {
@@ -53,6 +40,19 @@ type Tenant struct {
 	CreatedAt time.Time   `json:"created_at"`
 }
 
+type TenantGroup struct {
+	ID        uuid.UUID `json:"id"`
+	Name      string    `json:"name"`
+	CreatedAt time.Time `json:"created_at"`
+}
+
+type TenantPolicy struct {
+	ID        uuid.UUID   `json:"id"`
+	Name      string      `json:"name"`
+	GroupID   pgtype.UUID `json:"group_id"`
+	CreatedAt time.Time   `json:"created_at"`
+}
+
 type User struct {
 	ID                uuid.UUID `json:"id"`
 	Username          string    `json:"username"`
@@ -63,7 +63,7 @@ type User struct {
 	CreatedAt         time.Time `json:"created_at"`
 }
 
-type UsersGroup struct {
+type UserGroup struct {
 	ID        uuid.UUID   `json:"id"`
 	UserID    pgtype.UUID `json:"user_id"`
 	GroupID   uuid.UUID   `json:"group_id"`
