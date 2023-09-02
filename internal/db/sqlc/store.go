@@ -3,6 +3,7 @@ package db
 import (
 	"context"
 	"fmt"
+	"sync"
 
 	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgxpool"
@@ -15,13 +16,17 @@ type TxStore interface {
 
 type Store struct {
 	*Queries
-	pgxpool *pgxpool.Pool
+	pgxpool            *pgxpool.Pool
+	tenantDatabasePool map[string]*pgxpool.Pool // Map tenant ID to the respective database pool
+	poolLock           *sync.Mutex
 }
 
-func NewStore(pool *pgxpool.Pool) TxStore {
+func NewStore(pool *pgxpool.Pool, tenantDatabasePool map[string]*pgxpool.Pool, poolLock *sync.Mutex) TxStore {
 	return &Store{
-		pgxpool: pool,
-		Queries: New(pool),
+		pgxpool:            pool,
+		Queries:            New(pool),
+		tenantDatabasePool: tenantDatabasePool,
+		poolLock:           poolLock,
 	}
 }
 

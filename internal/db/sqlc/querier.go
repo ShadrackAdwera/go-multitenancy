@@ -11,11 +11,17 @@ import (
 )
 
 type Querier interface {
+	CreatePermission(ctx context.Context, arg CreatePermissionParams) (Permission, error)
 	CreateTenant(ctx context.Context, arg CreateTenantParams) (Tenant, error)
+	CreateTenantGroup(ctx context.Context, name string) (TenantGroup, error)
+	CreateTenantPolicy(ctx context.Context, arg CreateTenantPolicyParams) (TenantPolicy, error)
 	CreateUser(ctx context.Context, arg CreateUserParams) (User, error)
+	CreateUserGroup(ctx context.Context, arg CreateUserGroupParams) (UserGroup, error)
 	DeleteTenant(ctx context.Context, id uuid.UUID) error
 	DeleteUser(ctx context.Context, id uuid.UUID) error
 	GetTenant(ctx context.Context, id uuid.UUID) (Tenant, error)
+	GetTenantGroup(ctx context.Context, id uuid.UUID) (TenantGroup, error)
+	GetTenantPolicy(ctx context.Context, id uuid.UUID) (TenantPolicy, error)
 	GetUser(ctx context.Context, id uuid.UUID) (User, error)
 	ListTenants(ctx context.Context, arg ListTenantsParams) (Tenant, error)
 	ListUsers(ctx context.Context, arg ListUsersParams) ([]User, error)

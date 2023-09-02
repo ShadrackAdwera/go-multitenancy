@@ -15,7 +15,7 @@ CREATE TABLE "users" (
   "created_at" timestamptz NOT NULL DEFAULT (now())
 );
 
-CREATE TABLE "policy" (
+CREATE TABLE "tenant_policy" (
   "id" uuid PRIMARY KEY DEFAULT (gen_random_uuid()),
   "name" varchar(20) UNIQUE NOT NULL,
   "group_id" uuid,
@@ -37,7 +37,7 @@ CREATE TABLE "profile" (
   "group_id" uuid
 );
 
-CREATE TABLE "group" (
+CREATE TABLE "tenant_group" (
   "id" uuid PRIMARY KEY DEFAULT (gen_random_uuid()),
   "name" varchar(20) UNIQUE NOT NULL,
   "created_at" timestamptz NOT NULL DEFAULT (now())
@@ -50,7 +50,7 @@ CREATE TABLE "group_policy" (
   "created_at" timestamptz NOT NULL DEFAULT (now())
 );
 
-CREATE TABLE "users_group" (
+CREATE TABLE "user_group" (
   "id" uuid PRIMARY KEY DEFAULT (gen_random_uuid()),
   "user_id" uuid,
   "group_id" uuid NOT NULL,
@@ -65,22 +65,22 @@ CREATE UNIQUE INDEX ON "profile" ("id", "user_id");
 
 CREATE UNIQUE INDEX ON "group_policy" ("group_id", "policy_id");
 
-CREATE UNIQUE INDEX ON "users_group" ("group_id", "user_id");
+CREATE UNIQUE INDEX ON "user_group" ("group_id", "user_id");
 
 ALTER TABLE "users" ADD FOREIGN KEY ("tenant_id") REFERENCES "tenant" ("id");
 
-ALTER TABLE "policy" ADD FOREIGN KEY ("group_id") REFERENCES "group" ("id");
+ALTER TABLE "tenant_policy" ADD FOREIGN KEY ("group_id") REFERENCES "tenant_group" ("id");
 
-ALTER TABLE "permission" ADD FOREIGN KEY ("policy_id") REFERENCES "policy" ("id");
+ALTER TABLE "permission" ADD FOREIGN KEY ("policy_id") REFERENCES "tenant_policy" ("id");
 
 ALTER TABLE "profile" ADD FOREIGN KEY ("user_id") REFERENCES "users" ("id");
 
-ALTER TABLE "profile" ADD FOREIGN KEY ("group_id") REFERENCES "group" ("id");
+ALTER TABLE "profile" ADD FOREIGN KEY ("group_id") REFERENCES "tenant_group" ("id");
 
-ALTER TABLE "group_policy" ADD FOREIGN KEY ("group_id") REFERENCES "group" ("id");
+ALTER TABLE "group_policy" ADD FOREIGN KEY ("group_id") REFERENCES "tenant_group" ("id");
 
-ALTER TABLE "group_policy" ADD FOREIGN KEY ("policy_id") REFERENCES "policy" ("id");
+ALTER TABLE "group_policy" ADD FOREIGN KEY ("policy_id") REFERENCES "tenant_policy" ("id");
 
-ALTER TABLE "users_group" ADD FOREIGN KEY ("user_id") REFERENCES "users" ("id");
+ALTER TABLE "user_group" ADD FOREIGN KEY ("user_id") REFERENCES "users" ("id");
 
-ALTER TABLE "users_group" ADD FOREIGN KEY ("group_id") REFERENCES "group" ("id");
+ALTER TABLE "user_group" ADD FOREIGN KEY ("group_id") REFERENCES "tenant_group" ("id");

@@ -14,6 +14,6 @@ tests:
 mocks:
 	mockgen -package mockdb --destination pkg/mocks/store.go github.com/ShadrackAdwera/go-multitenancy/internal/sqlc TxStore
 start:
-	go run main.go
+	go run ./cmd/api/main.go
 
 .PHONY: migrate_create migrate_up migrate_down sqlc tests mocks start

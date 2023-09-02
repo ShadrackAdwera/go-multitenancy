@@ -28,7 +28,7 @@ func TestMain(m *testing.M) {
 		log.Fatal("Error establishing connection")
 	}
 
-	txTestStore = NewStore(pool)
+	txTestStore = NewStore(pool, nil, nil)
 
 	defer pool.Close()
 	os.Exit(m.Run())
